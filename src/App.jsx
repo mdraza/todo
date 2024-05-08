@@ -74,6 +74,7 @@ const Form = ({ onAddTodo }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!description) return;
     const newItem = { id: Date.now(), description };
     onAddTodo(newItem);
     setDescription("");
