@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 
 const initialItems = [
@@ -23,7 +23,10 @@ const initialItems = [
 ];
 
 const App = () => {
-  const [todo, setTodo] = useState(initialItems);
+  const [todo, setTodo] = useState(() => {
+    const localData = localStorage.getItem("todo");
+    return localData ? JSON.parse(localData) : initialItems;
+  });
   const [sortBy, setSortBy] = useState("all");
 
   const handleAddTodo = (todo) => {
@@ -41,6 +44,10 @@ const App = () => {
       )
     );
   };
+
+  useEffect(() => {
+    localStorage.setItem("todo", JSON.stringify(todo));
+  }, [todo]);
 
   return (
     <div className="flex justify-center mt-5 h-[90vh] relative">
